@@ -60,9 +60,9 @@ def write():
         model="gpt-3.5-turbo",
     )
 
-    # text = chat_completion.choices[0].message.content
+    text = chat_completion.choices[0].message.content
 
-    db.snc.insert_one({"name":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
+    # db.snc.insert_one({"name":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
 
     return jsonify({"text": text})
 
