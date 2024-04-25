@@ -35,7 +35,7 @@ def signin():
     pw = data.get("password")
     nickname = data.get("nickname")
 
-    # print(userId,pw,nickname)
+    print(userId,pw,nickname)
 
     db.users.insert_one({"userId":userId,"pw":pw,"nickname":nickname,"date":datetime.datetime.now()})
 
@@ -62,7 +62,7 @@ def write():
 
     text = chat_completion.choices[0].message.content
 
-    # db.snc.insert_one({"name":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
+    db.snc.insert_one({"name":name,"genre":genre,"text":text})
 
     return jsonify({"text": text})
 
