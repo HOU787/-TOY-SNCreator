@@ -13,6 +13,10 @@ import datetime
 import tempfile
 import logging
 
+# 암호화
+import jwt
+import hashlib
+
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
@@ -34,12 +38,35 @@ def signin():
     userId = data.get("userId")
     pw = data.get("password")
     nickname = data.get("nickname")
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
 
-    print(userId,pw,nickname)
+    # 이미 존재하는 아이디 or 닉네임 검증
 
-    db.users.insert_one({"userId":userId,"pw":pw,"nickname":nickname,"date":datetime.datetime.now()})
+    result1 = db.users.find_one({'id': userId})
+    result2 = db.users.find_one({'nickname':nickname})
 
-    return jsonify({"message": "Registration successful!"})
+    if result1 is not None:
+        return jsonify({'result': 'fail','message': 'ID already exist'})
+    elif  result2 is not None:
+        return jsonify({'result': 'fail','message': 'Nickname already exist'})
+    else:
+        db.users.insert_one({"id":userId,"pw":pw_hash,"nickname":nickname,"input_date":datetime.datetime.now()})
+        return jsonify({'result': 'success',"message": "Registration successful!"})
+
+# 로그인 기능
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()  # 클라이언트에서 보낸 JSON 데이터를 가져옴
+    userId = data.get("userId")
+    password = data.get("password")
+    pw_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()  # 비밀번호 해싱
+
+    # DB에서 유저 정보 찾기
+    result = db.users.find_one({"id": userId, "pw": pw_hash})
+    if result is not None:
+        return jsonify({'result': 'success', 'message': 'Login successful!'})
+    else:
+        return jsonify({'result': 'fail', 'message': 'Invalid ID or password'})
 
 # ChatGPT API 이용, 단편소설 생성 기능
 @app.route("/", methods=['POST'])

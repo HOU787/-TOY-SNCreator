@@ -49,15 +49,53 @@ document.addEventListener("DOMContentLoaded", function () {
           nickname: document.getElementById("newNickname").value,
         }),
       })
+        .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          alert("Registration successful!");
+          alert(data.message);
+
+          // success 일 때만 modal hide
+          if (data.result === "success") {
+            $("#signUpModal").modal("hide");
+          }
         })
         .catch((error) => {
           console.error("Error:", error);
           alert("An error occurred. Please try again.");
         });
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loginForm = document.getElementById("loginForm");
+
+  loginForm.addEventListener("submit", function (event) {
+    event.preventDefault(); // 기본 폼 제출 이벤트 방지
+
+    const userId = document.getElementById("userId").value;
+    const password = document.getElementById("password").value;
+
+    fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId,
+        password: password,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert(data.message); // 서버 응답 메시지를 alert로 표시
+        if (data.result === "success") {
+          $("#loginModal").modal("hide");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again later.");
+      });
+  });
 });
 
 document
