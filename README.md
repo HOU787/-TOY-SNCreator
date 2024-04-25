@@ -7,7 +7,8 @@ v0.1
 ChatGPT 기반 나만의 소설 생성 프로젝트
 
 - PDF 다운로드 기능
-- API 기능
+- OpenAIAPI
+- Front 개발
 
 v0.2 (2024.04.25)
 
