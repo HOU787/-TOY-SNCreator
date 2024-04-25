@@ -152,14 +152,16 @@
               required
             />
           </div>
+
+          <div class="center-spinner">
             <div
-              class="spinner-border text-primary m-2"
+              class="spinner-border text-primary"
+              style="display: none; width: 3rem; height: 3rem;"
               role="status"
               id="spinner"
-              style="display: none"
             >
-              <span class="visually-hidden">Loading...</span>
             </div>
+          </div>
             <button type="submit" class="btn btn-dark-custom">Submit</button>
           </div>
         </form>
@@ -188,17 +190,6 @@
           ></button>
         </div>
         <div class="modal-body">
-          <!-- 스피너 추가 -->
-          <div class="text-center" id="spinner" style="display: none">
-            <div
-              class="spinner-border text-primary"
-              style="width: 3rem; height: 3rem"
-              role="status"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-
           <textarea
             id="storyText"
             class="form-control"
