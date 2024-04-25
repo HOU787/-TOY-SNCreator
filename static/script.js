@@ -6,9 +6,58 @@ document.querySelectorAll(".col").forEach((col) => {
 });
 
 $(document).ready(function () {
+  // 로그인 모달 표시
   $("#log-in").click(function () {
     $("#loginModal").modal("show");
   });
+
+  // 회원가입 링크 클릭 시
+  $("#signupLink").click(function () {
+    $("#loginModal").modal("hide"); // 로그인 모달 닫기
+    $("#signUpModal").modal("show"); // 회원가입 모달 열기
+  });
+
+  // 회원가입 버튼 클릭 시 회원가입 모달 표시
+  $("#sign-up").click(function () {
+    $("#signUpModal").modal("show");
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("signinForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault(); // 기본 제출 이벤트 방지
+
+      var formData = new FormData(event.target);
+      var object = {};
+      formData.forEach((value, key) => {
+        object[key] = value;
+      });
+
+      var json = JSON.stringify(object);
+
+      fetch("/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          userId: document.getElementById("newUserId").value,
+          password: document.getElementById("newPassword").value,
+          nickname: document.getElementById("newNickname").value,
+        }),
+      })
+        .then((data) => {
+          console.log(data);
+          alert("Registration successful!");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred. Please try again.");
+        });
+    });
 });
 
 document

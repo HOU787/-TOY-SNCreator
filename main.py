@@ -2,29 +2,46 @@
 from flask import Flask, request, render_template, jsonify, send_file
 # PDF
 from fpdf import FPDF
-
-import os
 # OpenAI
 from openai import OpenAI
-
 # MongoDB
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
+import os
+import datetime
 import tempfile
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
+
 app = Flask(__name__)
 
-uri = "mongodb+srv://andrew787a:----@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
+# DB 연결부
+uri = "mongodb+srv://andrew787a:1234@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
-
 db = client.temp
 
+# main
 @app.route("/")
 def index():
     return render_template("main.html")
 
+# 회원가입 기능
+@app.route('/signin', methods=['POST'])
+def signin():
+    data = request.get_json()
+    userId = data.get("userId")
+    pw = data.get("password")
+    nickname = data.get("nickname")
+
+    # print(userId,pw,nickname)
+
+    db.users.insert_one({"userId":userId,"pw":pw,"nickname":nickname,"date":datetime.datetime.now()})
+
+    return jsonify({"message": "Registration successful!"})
+
+# ChatGPT API 이용, 단편소설 생성 기능
 @app.route("/", methods=['POST'])
 def write():
     name = request.form.get("nickname")
@@ -45,7 +62,7 @@ def write():
 
     text = chat_completion.choices[0].message.content
 
-    db.snc.insert_one({"name":name,"genre":genre,"text":text})
+    db.snc.insert_one({"name":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
 
     return jsonify({"text": text})
 

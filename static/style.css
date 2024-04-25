@@ -1,60 +1,81 @@
 @charset "UTF-8";
 
+/* 기본 HTML 및 Body 설정 */
 html,
 body {
   height: 100%;
   margin: 0;
 }
+
+/* Footer 스타일 */
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 60px; /* Set the fixed height of the footer here */
-  line-height: 60px; /* Vertically center the text there */
+  height: 60px;
+  line-height: 60px;
   background-color: #212529;
 }
+
 .footer p {
   color: white;
   margin: 0;
 }
-.container-full-height {
-  min-height: calc(
-    100% - 60px
-  ); /* Adjust the min-height to compensate for footer height */
-}
+
+/* 모달 및 버튼 커스텀 스타일 */
 .modal-lg {
-  max-width: 90%; /* 모달의 최대 너비를 확장 */
-}
-#storyText {
-  height: 500px; /* 텍스트 영역의 높이 설정 */
+  max-width: 90%;
 }
 
-.modal-custom {
-  background-color: #212529; /* 짙은 남색 */
+.modal-custom,
+.modal-content {
+  background-color: #212529;
   color: white;
 }
-.modal-content {
-  background-color: #212529; /* 짙은 남색 */
-}
-.btn-dark-custom {
-  background-color: #ffa500; /* 밝은 주황색 */
+
+.btn-first {
+  background-color: #ffa500;
   border: none;
-  color: white; /* 텍스트 색상을 흰색으로 설정 */
-  width: 100%; /* 버튼을 가로로 키움 */
-  padding: 0.5rem 1rem; /* 패딩을 조정하여 버튼 크기를 조절 */
+  color: white;
 }
+
+.btn-first:hover {
+  background-color: rgba(255, 165, 0, 0.7);
+}
+
+.btn-dark-custom {
+  background-color: #ffa500;
+  border: none;
+  color: white;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
 .btn-dark-custom:hover {
-  background-color: rgba(255, 165, 0, 0.7); /* 마우스 오버시 배경색 유지 */
+  background-color: rgba(255, 165, 0, 0.7);
 }
+
+/* 텍스트 관련 스타일 */
+#storyText {
+  height: 500px;
+}
+
 .text-light {
   color: #ddd;
 }
+
 .text-light:hover {
   color: #fff;
   text-decoration: none;
 }
+
+.form-control {
+  color: #000;
+}
+
+/* 추가적인 섹션 스타일링 */
 .signup-section {
-  text-align: center; /* Signup 문구를 가운데 정렬 */
-  margin-top: 20px; /* 'Submit' 버튼과의 공백 추가 */
-  margin-bottom: 20px; /* 'Submit' 버튼 위의 추가 공백 */
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
