@@ -27,24 +27,14 @@ uri = "mongodb+srv://andrew787a:1234@cluster0.dvmxbxe.mongodb.net/?retryWrites=t
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.temp
 
-# # intro
-# @app.route("/")
-# def intro():
-#     # 세션에서 로그인 상태 확인
-#     if 'user_id' in session:
-#         logged_in = True
-#         return render_template("main.html", logged_in=logged_in)
-#     else:
-#         logged_in = False
-#         return render_template("intro.html", logged_in=logged_in)
-
 # main
 @app.route("/")
 def index():
     # 세션에서 로그인 상태 확인
     if 'user_id' in session:
         logged_in = True
-        return render_template("main.html", logged_in=logged_in)
+        user = db.users.find_one({'id':session.get('user_id')})
+        return render_template("main.html", logged_in=logged_in, nickname = user.get('nickname'))
     else:
         logged_in = False
         print(logged_in)

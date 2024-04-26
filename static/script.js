@@ -6,6 +6,7 @@ document.querySelectorAll(".col").forEach((col) => {
     } else {
       const genre = this.getAttribute("data-genre");
       document.getElementById("genreInput").value = genre;
+      document.getElementById("genreName").innerHTML = genre;
     }
   });
 });
