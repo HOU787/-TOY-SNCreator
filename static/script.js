@@ -1,9 +1,18 @@
 document.querySelectorAll(".col").forEach((col) => {
-  col.addEventListener("click", function () {
-    const genre = this.getAttribute("data-genre");
-    document.getElementById("genreInput").value = genre;
+  col.addEventListener("click", function (event) {
+    const loggedIn = this.getAttribute("data-logged-in") === "true";
+    if (!loggedIn) {
+      alert("Please log in to access this feature.");
+    } else {
+      const genre = this.getAttribute("data-genre");
+      document.getElementById("genreInput").value = genre;
+    }
   });
 });
+
+function showLoginModal() {
+  $("#loginModal").modal("show");
+}
 
 $(document).ready(function () {
   // 로그인 모달 표시
@@ -65,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// login
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
 
@@ -89,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alert(data.message); // 서버 응답 메시지를 alert로 표시
         if (data.result === "success") {
           $("#loginModal").modal("hide");
+          location.reload(true);
         }
       })
       .catch((error) => {
@@ -96,6 +107,13 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("An error occurred. Please try again later.");
       });
   });
+});
+
+// log-out
+document.getElementById("log-out").addEventListener("click", function () {
+  fetch("/logout");
+  alert("Logout successful!");
+  location.reload(true);
 });
 
 document

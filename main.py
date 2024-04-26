@@ -1,5 +1,5 @@
 # Flask
-from flask import Flask, request, render_template, jsonify, send_file
+from flask import Flask, request, session, render_template, jsonify, send_file, redirect, url_for
 # PDF
 from fpdf import FPDF
 # OpenAI
@@ -20,16 +20,35 @@ import hashlib
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+app.secret_key = 'NOWEVERYONECANAUTHOR'
 
 # DB 연결부
 uri = "mongodb+srv://andrew787a:1234@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.temp
 
+# # intro
+# @app.route("/")
+# def intro():
+#     # 세션에서 로그인 상태 확인
+#     if 'user_id' in session:
+#         logged_in = True
+#         return render_template("main.html", logged_in=logged_in)
+#     else:
+#         logged_in = False
+#         return render_template("intro.html", logged_in=logged_in)
+
 # main
 @app.route("/")
 def index():
-    return render_template("main.html")
+    # 세션에서 로그인 상태 확인
+    if 'user_id' in session:
+        logged_in = True
+        return render_template("main.html", logged_in=logged_in)
+    else:
+        logged_in = False
+        print(logged_in)
+        return render_template("intro.html", logged_in=logged_in)
 
 # 회원가입 기능
 @app.route('/signin', methods=['POST'])
@@ -64,9 +83,16 @@ def login():
     # DB에서 유저 정보 찾기
     result = db.users.find_one({"id": userId, "pw": pw_hash})
     if result is not None:
+        session['user_id'] = userId  # 세션에 사용자 ID 저장
         return jsonify({'result': 'success', 'message': 'Login successful!'})
     else:
         return jsonify({'result': 'fail', 'message': 'Invalid ID or password'})
+
+# 로그아웃 기능
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)  # 세션에서 사용자 ID 제거
+    return redirect(url_for('index'))
 
 # ChatGPT API 이용, 단편소설 생성 기능
 @app.route("/", methods=['POST'])

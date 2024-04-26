@@ -94,3 +94,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.card:hover {
+  background-color: #212529;
+  color: #fff;
+}

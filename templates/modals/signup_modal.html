@@ -1,0 +1,70 @@
+<!-- SignUp Modal -->
+<div
+class="modal fade"
+id="signUpModal"
+tabindex="-1"
+aria-labelledby="signUpModalLabel"
+aria-hidden="true"
+data-bs-backdrop="static"
+>
+<div class="modal-dialog">
+  <div class="modal-content modal-custom">
+    <div class="modal-header">
+      <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+      <button
+        type="button"
+        class="btn-close btn-close-white"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form id="signinForm">
+
+        <div class="mb-3">
+          <label for="newUserId" class="form-label">User ID</label>
+          <input type="text" class="form-control" id="newUserId" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="newPassword" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="newPassword"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            id="confirmPassword"
+            required
+          />
+          </div>
+
+          <div class="mb-3">
+            <label for="newNickname" class="form-label">Nickname</label>
+          <input
+            type="input"
+            class="form-control"
+            id="newNickname"
+            required
+          />
+        <br>
+        </div>
+          <div class="mb-3">
+          <button type="submit" class="btn btn-dark-custom">submit</button>
+          </div>
+
+      </form>
+        </div>
+    </div>
+  </div>
+</div>
+</div>

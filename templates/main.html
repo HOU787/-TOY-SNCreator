@@ -30,9 +30,15 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container px-4 px-lg-5">
         <a class="navbar-brand" href="#!">SNCreator</a>
+        {% if logged_in %}
+        <button type="button" class="btn btn-outline-dark" id="log-out">
+          LOG-OUT
+        </button>
+        {% else %}
         <button type="button" class="btn btn-outline-dark" id="log-in">
           LOG-IN
         </button>
+        {% endif %}
       </div>
     </nav>
 
@@ -57,9 +63,17 @@
           <!-- Each card now triggers a modal -->
           <div
             class="col mb-5"
+            {%
+            if
+            logged_in
+            %}
             data-bs-toggle="modal"
             data-bs-target="#nameModal"
+            {%
+            endif
+            %}
             data-genre="Fantasy"
+            data-logged-in="{{ logged_in|lower }}"
           >
             <div class="card h-100">
               <img
@@ -72,9 +86,17 @@
           </div>
           <div
             class="col mb-5"
+            {%
+            if
+            logged_in
+            %}
             data-bs-toggle="modal"
             data-bs-target="#nameModal"
+            {%
+            endif
+            %}
             data-genre="Romance"
+            data-logged-in="{{ logged_in|lower }}"
           >
             <div class="card h-100">
               <img
@@ -87,9 +109,17 @@
           </div>
           <div
             class="col mb-5"
+            {%
+            if
+            logged_in
+            %}
             data-bs-toggle="modal"
             data-bs-target="#nameModal"
+            {%
+            endif
+            %}
             data-genre="SF"
+            data-logged-in="{{ logged_in|lower }}"
           >
             <div class="card h-100">
               <img class="card-img-top" src="static\img\SF.png" alt="SF" />
@@ -98,9 +128,17 @@
           </div>
           <div
             class="col mb-5"
+            {%
+            if
+            logged_in
+            %}
             data-bs-toggle="modal"
             data-bs-target="#nameModal"
+            {%
+            endif
+            %}
             data-genre="Mystery"
+            data-logged-in="{{ logged_in|lower }}"
           >
             <div class="card h-100">
               <img
@@ -114,229 +152,18 @@
         </div>
       </div>
     </section>
-    <!-- <script src="{{ url_for('static', filename='script.js') }}"></script> -->
 
-  <!-- Name Entry Modal -->
-  <div
-    class="modal fade"
-    id="nameModal"
-    tabindex="-1"
-    aria-labelledby="nameModalLabel"
-    aria-hidden="true"
-    data-bs-backdrop="static"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="nameModalLabel">
-            Create Short Novel
-          </h5>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <form id="nameForm">
-          <div class="modal-body">
+    <!-- Name Entry Modal -->
+    {% include 'modals/name_entry_modal.html' %}
+    <!-- Confirmation Modal to display and edit the processed text -->
+    {% include 'modals/confirmation_modal.html' %}
+    <!-- Log-in Modal -->
+    {% include 'modals/login_modal.html' %}
+    <!-- SignUp Modal -->
+    {% include 'modals/signup_modal.html' %}
 
-          <div class="mb-3">
-            <input type="hidden" name="genre" id="genreInput" />
-            <label for="NickName" class="form-label">Nickname</label>
-            <input
-              type="text"
-              name="nickname"
-              class="form-control"
-              placeholder="Your name here..."
-              required
-            />
-          </div>
-
-          <div class="center-spinner">
-            <div
-              class="spinner-border text-primary"
-              style="display: none; width: 3rem; height: 3rem;"
-              role="status"
-              id="spinner"
-            >
-            </div>
-          </div>
-            <button type="submit" class="btn btn-dark-custom">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Confirmation Modal to display and edit the processed text -->
-  <div
-    class="modal fade"
-    id="confirmationModal"
-    tabindex="-1"
-    aria-labelledby="confirmationModalLabel"
-    aria-hidden="true"
-    data-bs-backdrop="static"
-  >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalTitle">Your Custom Story</h5>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <textarea
-            id="storyText"
-            class="form-control"
-            rows="10"
-            maxlength="3000"
-            placeholder="Your story will appear here..."
-            readonly
-          ></textarea>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" onclick="saveStory()">
-            Save To PDF
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Log-in Modal -->
-  <div
-    class="modal fade"
-    id="loginModal"
-    tabindex="-1"
-    aria-labelledby="loginModalLabel"
-    aria-hidden="true"
-    data-bs-backdrop="static"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content modal-custom">
-        <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Login</h5>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="userId" class="form-label">ID</label>
-              <input type="text" class="form-control" id="userId" required />
-            </div>
-            <div class="mb-3">
-              <label for="userPw" class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                required
-              />
-            </div>
-            <div class="signup-section">
-              <span
-                >Not a Member?
-                <a href="#" id="signupLink" class="text-light"
-                  >Sign Up Now!</a
-                ></span
-              >
-            </div>
-            <button type="submit" class="btn btn-dark-custom">Log in</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SignUp Modal -->
-  <div
-    class="modal fade"
-    id="signUpModal"
-    tabindex="-1"
-    aria-labelledby="signUpModalLabel"
-    aria-hidden="true"
-    data-bs-backdrop="static"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content modal-custom">
-        <div class="modal-header">
-          <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form id="signinForm">
-
-            <div class="mb-3">
-              <label for="newUserId" class="form-label">User ID</label>
-              <input type="text" class="form-control" id="newUserId" required />
-            </div>
-
-            <div class="mb-3">
-              <label for="newPassword" class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="newPassword"
-                required
-              />
-            </div>
-
-            <div class="mb-3">
-              <label for="confirmPassword" class="form-label"
-                >Confirm Password</label
-              >
-              <input
-                type="password"
-                class="form-control"
-                id="confirmPassword"
-                required
-              />
-              </div>
-
-              <div class="mb-3">
-                <label for="newNickname" class="form-label">Nickname</label>
-              <input
-                type="input"
-                class="form-control"
-                id="newNickname"
-                required
-              />
-            <br>
-            </div>
-              <div class="mb-3">
-              <button type="submit" class="btn btn-dark-custom">submit</button>
-              </div>
-
-          </form>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
   <!-- Footer -->
   <footer class="footer">
     <div class="container text-center">

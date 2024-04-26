@@ -1,0 +1,48 @@
+<!-- Name Entry Modal -->
+<div
+  class="modal fade"
+  id="nameModal"
+  tabindex="-1"
+  aria-labelledby="nameModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nameModalLabel">Create Short Novel</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form id="nameForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <input type="hidden" name="genre" id="genreInput" />
+            <label for="NickName" class="form-label">Nickname</label>
+            <input
+              type="text"
+              name="nickname"
+              class="form-control"
+              placeholder="Your name here..."
+              required
+            />
+          </div>
+
+          <div class="center-spinner">
+            <div
+              class="spinner-border text-primary"
+              style="display: none; width: 3rem; height: 3rem"
+              role="status"
+              id="spinner"
+            ></div>
+          </div>
+          <button type="submit" class="btn btn-dark-custom">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
