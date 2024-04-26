@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.secret_key = 'NOWEVERYONECANAUTHOR'
 
 # DB 연결부
-uri = "mongodb+srv://andrew787a:1234@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://andrew787a:********@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.temp
 
