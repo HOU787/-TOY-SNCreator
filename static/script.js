@@ -33,6 +33,7 @@ $(document).ready(function () {
   });
 });
 
+// 회원가입 처리
 document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("signinForm")
@@ -146,6 +147,7 @@ document
           document.getElementById("confirmationModal")
         );
         confirmationModal.show();
+        $("#nameModal").modal("hide");
       })
       .catch((error) => {
         console.error("Error:", error);
