@@ -39,6 +39,11 @@ v 0.5 (2024.04.28)
 - (FRONT) intro 페이지 개발
 - (FRONT) Modal 컴포넌트 분리
 
+v 0.6 (2024.04.29)
+
+- (BACK) 회원DB 속성 추가 (role, grade, count)
+- (FRONT) grade에 따른 이모지 사용
+
 ---
 
 TODO LIST (MUST, 중요도 순)

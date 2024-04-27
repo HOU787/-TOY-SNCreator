@@ -27,25 +27,7 @@
 
   <body>
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">SNCreator</a>
-        <div>
-          {% if logged_in %}
-          <button type="button" class="btn btn-outline-dark" id="my-page">
-            MY PAGE
-          </button>
-          <button type="button" class="btn btn-outline-dark" id="log-out">
-            LOG-OUT
-          </button>
-          {% else %}
-          <button type="button" class="btn btn-outline-dark" id="log-in">
-            LOG-IN
-          </button>
-          {% endif %}
-        </div>
-      </div>
-    </nav>
+    {% include 'navi.html'%}
 
     <!-- Header-->
     <header class="bg-dark py-5">

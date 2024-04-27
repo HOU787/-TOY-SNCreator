@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.secret_key = 'NOWEVERYONECANAUTHOR'
 
 # DB 연결부
-uri = "mongodb+srv://andrew787a:********@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://andrew787a:1234@cluster0.dvmxbxe.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client.temp
 
@@ -34,7 +34,37 @@ def index():
     if 'user_id' in session:
         logged_in = True
         user = db.users.find_one({'id':session.get('user_id')})
-        return render_template("main.html", logged_in=logged_in, nickname = user.get('nickname'))
+        grade = user.get('grade')
+        emoji = get_emoji(grade)
+        return render_template("main.html", logged_in=logged_in, nickname = user.get('nickname'), emoji=emoji)
+    else:
+        logged_in = False
+        print(logged_in)
+        return render_template("intro.html", logged_in=logged_in)
+    
+# emoji
+def get_emoji(grade):
+    emoji_dict = {
+        0: "👶",
+        1: "🙂",
+        2: "🧑‍💻",
+        10: "🧙",
+        11: "👼",
+        12: "🧑‍🚀",
+        13: "🕵️",
+        99: "🧚‍♂️"
+    }
+    return emoji_dict.get(grade, "❓")
+
+
+# mypage
+@app.route("/mypage")
+def mypage():
+    # 세션에서 로그인 상태 확인
+    if 'user_id' in session:
+        logged_in = True
+        user = db.users.find_one({'id':session.get('user_id')})
+        return render_template("mypage.html", logged_in=logged_in, nickname = user.get('nickname'))
     else:
         logged_in = False
         print(logged_in)
@@ -59,7 +89,7 @@ def signin():
     elif  result2 is not None:
         return jsonify({'result': 'fail','message': 'Nickname already exist'})
     else:
-        db.users.insert_one({"id":userId,"pw":pw_hash,"nickname":nickname,"input_date":datetime.datetime.now()})
+        db.users.insert_one({"id":userId,"pw":pw_hash,"nickname":nickname,"input_date":datetime.datetime.now(),"role":"USER", "grade":0,"cnt":0})
         return jsonify({'result': 'success',"message": "Registration successful!"})
 
 # 로그인 기능
