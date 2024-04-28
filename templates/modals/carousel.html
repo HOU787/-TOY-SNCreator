@@ -1,0 +1,88 @@
+<style>
+  .carousel .carousel-item img {
+    width: 75%; /* 이미지가 캐러셀의 너비에 맞추어 확장되도록 설정 */
+    height: 30em; /* 이미지의 높이를 고정 */
+    object-fit: cover; /* 이미지가 컨테이너를 꽉 채우도록 조정, 필요시 이미지를 자름 */
+  }
+
+  #carouselExampleCaptions {
+    width: 75%; /* 캐러셀의 너비를 90%로 설정 */
+    height: 30em; /* 캐러셀의 높이를 30em로 고정 */
+    margin: 0 auto; /* 수평 중앙 정렬 */
+    display: block; /* 블록 레벨 요소로 설정하여 width와 margin auto가 적용되도록 함 */
+  }
+
+  .carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+</style>
+
+<div
+  id="carouselExampleCaptions"
+  class="carousel slide"
+  data-bs-ride="carousel"
+>
+  <div class="carousel-indicators">
+    <button
+      type="button"
+      data-bs-target="#carouselExampleCaptions"
+      data-bs-slide-to="0"
+      class="active"
+      aria-current="true"
+      aria-label="Slide 1"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleCaptions"
+      data-bs-slide-to="1"
+      aria-label="Slide 2"
+    ></button>
+    <button
+      type="button"
+      data-bs-target="#carouselExampleCaptions"
+      data-bs-slide-to="2"
+      aria-label="Slide 3"
+    ></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="static\img\createnovel.png" class="d-block w-100" alt="..." />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Create own Novel</h1>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="static\img\levelup.png" class="d-block w-100" alt="..." />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Get start Level up</h1>
+        <p>Some representative placeholder content for the second slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="static\img\shere.png" class="d-block w-100" alt="..." />
+      <div class="carousel-caption d-none d-md-block">
+        <h1>Shere yout novel</h1>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleCaptions"
+    data-bs-slide="prev"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleCaptions"
+    data-bs-slide="next"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>

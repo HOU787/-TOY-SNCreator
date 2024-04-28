@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand navbar-light bg-light">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="/">SNCreator</a>
+    <div class="collapse navbar-collapse show" id="navbarNavDarkDropdown">
+      {% if logged_in %}
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDarkDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{emoji}} {{nickname}}
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-dark"
+            aria-labelledby="navbarDarkDropdownMenuLink"
+          >
+            <li
+              class="dropdown-item disabled"
+              style="display: flex; align-items: center"
+              aria-disabled="true"
+            >
+              <div style="font-size: 24px; margin-right: 10px">{{emoji}}</div>
+              <div>
+                <div>{{title}}</div>
+                <div>Hello! {{nickname}}</div>
+              </div>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="/mypage">MYPAGE</a></li>
+            <li>
+              <a class="dropdown-item" href="/logout" id="log-out">LOG-OUT</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+      <button type="button" class="btn btn-outline-dark" id="log-in">
+        LOG-IN
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</nav>

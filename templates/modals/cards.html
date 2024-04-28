@@ -1,0 +1,98 @@
+<!-- Card Section-->
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+    <div
+      class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+    >
+      <!-- Each card now triggers a modal -->
+      <div
+        class="col mb-5"
+        {%
+        if
+        logged_in
+        %}
+        data-bs-toggle="modal"
+        data-bs-target="#nameModal"
+        {%
+        endif
+        %}
+        data-genre="Fantasy"
+        data-logged-in="{{ logged_in|lower }}"
+      >
+        <div class="card h-100">
+          <img
+            class="card-img-top"
+            src="static\img\fantasy.png"
+            alt="Fantasy"
+          />
+          <h5 class="box h5" style="text-align: center">Fantasy</h5>
+        </div>
+      </div>
+      <div
+        class="col mb-5"
+        {%
+        if
+        logged_in
+        %}
+        data-bs-toggle="modal"
+        data-bs-target="#nameModal"
+        {%
+        endif
+        %}
+        data-genre="Romance"
+        data-logged-in="{{ logged_in|lower }}"
+      >
+        <div class="card h-100">
+          <img
+            class="card-img-top"
+            src="static\img\romance.jpg"
+            alt="Romance"
+          />
+          <h5 class="box h5" style="text-align: center">Romance</h5>
+        </div>
+      </div>
+      <div
+        class="col mb-5"
+        {%
+        if
+        logged_in
+        %}
+        data-bs-toggle="modal"
+        data-bs-target="#nameModal"
+        {%
+        endif
+        %}
+        data-genre="SF"
+        data-logged-in="{{ logged_in|lower }}"
+      >
+        <div class="card h-100">
+          <img class="card-img-top" src="static\img\SF.png" alt="SF" />
+          <h5 class="box h5" style="text-align: center">SF</h5>
+        </div>
+      </div>
+      <div
+        class="col mb-5"
+        {%
+        if
+        logged_in
+        %}
+        data-bs-toggle="modal"
+        data-bs-target="#nameModal"
+        {%
+        endif
+        %}
+        data-genre="Mystery"
+        data-logged-in="{{ logged_in|lower }}"
+      >
+        <div class="card h-100">
+          <img
+            class="card-img-top"
+            src="static\img\mystery4.png"
+            alt="Mystery"
+          />
+          <h5 class="box h5" style="text-align: center">Mystery</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

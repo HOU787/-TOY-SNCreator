@@ -35,8 +35,9 @@ def index():
         logged_in = True
         user = db.users.find_one({'id':session.get('user_id')})
         grade = user.get('grade')
-        emoji = get_emoji(grade)
-        return render_template("main.html", logged_in=logged_in, nickname = user.get('nickname'), emoji=emoji)
+        grade_emoji = get_emoji(grade)
+        grade_title = get_title(grade)
+        return render_template("main.html", logged_in=logged_in, nickname = user.get('nickname'), emoji=grade_emoji, title=grade_title)
     else:
         logged_in = False
         print(logged_in)
@@ -55,6 +56,20 @@ def get_emoji(grade):
         99: "🧚‍♂️"
     }
     return emoji_dict.get(grade, "❓")
+
+# title
+def get_title(grade):
+    title_dict = {
+        0: "Newbe",
+        1: "Citizen",
+        2: "Author",
+        10: "Sorcerer",
+        11: "Cupid",
+        12: "Astronaut",
+        13: "Detective",
+        99: "Admin"
+    }
+    return title_dict.get(grade, "?")
 
 
 # mypage
