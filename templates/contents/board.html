@@ -23,7 +23,6 @@
         <a style="width: 15%">{{ post['nickname'] }}</a>
         <a style="width: 20%">{{ post['date'].strftime("%Y-%m-%d") }}</a>
       </li>
-
       {% endfor %} {% else %}
       <li class="list-group-item" style="text-align: center">
         There is no post
@@ -31,4 +30,33 @@
       {% endif %}
     </ul>
   </div>
+  <!-- Pagination Section Below with added margin and black color text -->
+  <nav aria-label="Page navigation example" style="margin-top: 20px">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <a
+          class="page-link"
+          href="#"
+          aria-label="Previous"
+          style="color: black"
+        >
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" style="color: black">1</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" style="color: black">2</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" style="color: black">3</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next" style="color: black">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 </section>
