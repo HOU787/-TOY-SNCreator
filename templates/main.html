@@ -17,7 +17,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <link
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='css/style.css') }}"
       rel="stylesheet"
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -25,13 +25,13 @@
 
   <body>
     <!-- Navigation -->
-    {% include 'modals/navi.html'%}
+    {% include 'contents/navi.html'%}
 
     <!-- carousel -->
-    {% include 'modals/carousel.html'%}
+    {% include 'contents/carousel.html'%}
 
     <!-- Card Section -->
-    {% include 'modals/cards.html'%}
+    {% include 'contents/cards.html'%}
 
     <!-- Name Entry Modal -->
     {% include 'modals/name_entry_modal.html' %}
@@ -42,13 +42,13 @@
     <!-- SignUp Modal -->
     {% include 'modals/signup_modal.html' %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container text-center">
-      <p>© 2024 SNCreator. All rights reserved.</p>
-    </div>
-  </footer>
+  <link
+    href="{{ url_for('static', filename='css/footer.css') }}"
+    rel="stylesheet"
+  />
+  <footer class="footer">{% include 'contents/footer.html' %}</footer>
 </html>

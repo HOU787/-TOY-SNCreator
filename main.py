@@ -79,7 +79,18 @@ def mypage():
     if 'user_id' in session:
         logged_in = True
         user = db.users.find_one({'id':session.get('user_id')})
-        return render_template("mypage.html", logged_in=logged_in, nickname = user.get('nickname'))
+        grade = user.get('grade')
+        grade_emoji = get_emoji(grade)
+        grade_title = get_title(grade)
+        fantasy_cnt = user.get('fantasy_cnt')
+        mystery_cnt = user.get('mystery_cnt')
+        rommance_cnt = user.get('rommance_cnt')
+        sf_cnt = user.get('sf_cnt')
+        all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
+
+        return render_template("mypage.html", logged_in=logged_in, nickname = user.get('nickname'), 
+                               emoji=grade_emoji, title=grade_title,
+                               fantasy_cnt=fantasy_cnt, mystery_cnt=mystery_cnt, rommance_cnt=rommance_cnt, sf_cnt=sf_cnt, all_cnt=all_cnt)
     else:
         logged_in = False
         print(logged_in)
@@ -104,7 +115,10 @@ def signin():
     elif  result2 is not None:
         return jsonify({'result': 'fail','message': 'Nickname already exist'})
     else:
-        db.users.insert_one({"id":userId,"pw":pw_hash,"nickname":nickname,"input_date":datetime.datetime.now(),"role":"USER", "grade":0,"cnt":0})
+        db.users.insert_one({
+            "id":userId,"pw":pw_hash,"nickname":nickname,"input_date":datetime.datetime.now(),
+            "role":"USER", "grade":0,"cnt":0,
+            "fantasy_cnt":0,"mystery_cnt":0,"rommance_cnt":0,"sf_cnt":0})
         return jsonify({'result': 'success',"message": "Registration successful!"})
 
 # 로그인 기능
@@ -135,6 +149,7 @@ def write():
     name = request.form.get("nickname")
     genre = request.form.get("genre")
 
+    # API 호출
     send_message = f"You are an author. write a novel in 3000 characters under the main character name: {name}, Genre: {genre}. and you must write title"
 
     client = OpenAI(
@@ -148,11 +163,27 @@ def write():
         model="gpt-3.5-turbo",
     )
 
-    text = chat_completion.choices[0].message.content
+    # DB
+    user = db.users.find_one({'id':session.get('user_id')})
 
-    db.snc.insert_one({"name":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
+    text = chat_completion.choices[0].message.content
+    db.snc.insert_one({"id":user.get("id"), "cheracter":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
+    
+    db_genre_cnt = get_genre_cnt(genre)
+    genre_cnt = user.get(db_genre_cnt) + 1
+    db.users.update_one({"id":user.get("id")},{'$set': {db_genre_cnt: genre_cnt}})
 
     return jsonify({"text": text})
+
+# DB 카운트 용도
+def get_genre_cnt(genre):
+    genre_dict = {
+        "Romance":"rommance_cnt",
+        "Fantasy":"fantasy_cnt",
+        "SF":"sf_cnt",
+        "Mystery":"mystery_cnt"
+    }
+    return genre_dict.get(genre)
 
 
 # PDF 다운로드 기능
