@@ -20,11 +20,12 @@
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-      .card {
-        min-height: 100px;
-        min-width: 100px;
+      #contentsList:hover {
+        background-color: #212529;
+        color: #fff;
       }
     </style>
+    <head> </head>
   </head>
 
   <body>
@@ -33,6 +34,40 @@
 
     <!-- Mypage_cards -->
     {% include 'contents/mypage_cards.html' %}
+    <section class="py-5">
+      <div class="container px-4 px-lg-5 mt-5">
+        <ul class="list-group">
+          <li
+            class="list-group-item list-group-item-dark d-flex justify-content-between"
+            style="text-align: center"
+          >
+            <a style="width: 5%">No</a>
+            <a style="width: 10%">Genre</a>
+            <a style="width: 50%">Title</a>
+            <a style="width: 15%">Writer</a>
+            <a style="width: 20%">Date</a>
+          </li>
+          {% if posts %} {% for post in posts %}
+          <li
+            class="list-group-item d-flex justify-content-between"
+            style="text-align: center"
+            id="contentsList"
+          >
+            <a style="width: 5%">{{ post['postId'] }}</a>
+            <a style="width: 10%">{{ post['genre'] }}</a>
+            <a style="width: 50%">{{ post['title'] }}</a>
+            <a style="width: 15%">{{ post['nickname'] }}</a>
+            <a style="width: 20%">{{ post['date'].strftime("%Y-%m-%d") }}</a>
+          </li>
+
+          {% endfor %} {% else %}
+          <li class="list-group-item" style="text-align: center">
+            There is no post
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </section>
   </body>
 
   <!-- Footer -->

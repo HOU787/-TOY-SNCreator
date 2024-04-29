@@ -5,6 +5,7 @@ from fpdf import FPDF
 # OpenAI
 from openai import OpenAI
 # MongoDB
+from pymongo import ReturnDocument
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -88,9 +89,13 @@ def mypage():
         sf_cnt = user.get('sf_cnt')
         all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
 
+        posts = list(db.novels.find({'id':user.get('id')}))
+        print(posts)
+
         return render_template("mypage.html", logged_in=logged_in, nickname = user.get('nickname'), 
                                emoji=grade_emoji, title=grade_title,
-                               fantasy_cnt=fantasy_cnt, mystery_cnt=mystery_cnt, rommance_cnt=rommance_cnt, sf_cnt=sf_cnt, all_cnt=all_cnt)
+                               fantasy_cnt=fantasy_cnt, mystery_cnt=mystery_cnt, rommance_cnt=rommance_cnt, sf_cnt=sf_cnt, all_cnt=all_cnt,
+                               posts = posts)
     else:
         logged_in = False
         print(logged_in)
@@ -167,13 +172,36 @@ def write():
     user = db.users.find_one({'id':session.get('user_id')})
 
     text = chat_completion.choices[0].message.content
-    db.snc.insert_one({"id":user.get("id"), "cheracter":name,"genre":genre,"text":text,"date":datetime.datetime.now()})
+    lines = text.split('\n')
+
+    # title
+    title = lines[0].split(': ')[1]
+
+    # text
+    content = '\n'.join(lines[1:]).strip()
+
+    # 시퀀스 생성
+    postid = get_next_sequence('postId')
+
+    db.novels.insert_one({"postId":postid,"id":user.get("id"), "nickname":user.get("nickname"), "cheracter":name,"genre":genre, "title":title ,"text":content ,"date":datetime.datetime.now()})
     
     db_genre_cnt = get_genre_cnt(genre)
     genre_cnt = user.get(db_genre_cnt) + 1
     db.users.update_one({"id":user.get("id")},{'$set': {db_genre_cnt: genre_cnt}})
 
     return jsonify({"text": text})
+
+# 시퀀스 증가 함수
+def get_next_sequence(sequence_name):
+    sequence_document = db.novels.find_one_and_update(
+        {"_id": sequence_name},
+        {"$inc": {"seq": 1}},
+        projection={"seq": True, "_id": False},
+        return_document=ReturnDocument.AFTER,
+        upsert=True
+    )
+    return sequence_document['seq']
+    
 
 # DB 카운트 용도
 def get_genre_cnt(genre):
