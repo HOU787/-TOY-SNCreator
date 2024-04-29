@@ -90,7 +90,6 @@ def mypage():
         all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
 
         posts = list(db.novels.find({'id':user.get('id')}))
-        print(posts)
 
         return render_template("mypage.html", logged_in=logged_in, nickname = user.get('nickname'), 
                                emoji=grade_emoji, title=grade_title,
@@ -189,7 +188,7 @@ def write():
     genre_cnt = user.get(db_genre_cnt) + 1
     db.users.update_one({"id":user.get("id")},{'$set': {db_genre_cnt: genre_cnt}})
 
-    return jsonify({"text": text})
+    return jsonify({"title":title ,"text": content})
 
 # 시퀀스 증가 함수
 def get_next_sequence(sequence_name):
@@ -221,8 +220,15 @@ logging.basicConfig(level=logging.DEBUG)
 def download_pdf():
     try:
         text = request.form['text']
+        title = request.form['title']
         pdf = FPDF()
         pdf.add_page()
+        # title
+        pdf.set_font("Helvetica", 'B', size=12)
+        pdf.cell(200, 10, title, ln=True, align='C') 
+        # 제목과 내용 사이 공백
+        pdf.ln(20)
+        # text
         pdf.set_font("Helvetica", size=9)
         pdf.multi_cell(0, 10, text)
         

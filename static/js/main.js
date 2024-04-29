@@ -19,7 +19,6 @@ document
     let formData = new FormData(this);
 
     // 스피너를 표시
-    console.log("Showing spinner");
     document.getElementById("spinner").style.display = "block";
     document.getElementById("storyText").style.display = "none";
 
@@ -29,10 +28,10 @@ document
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Hiding spinner");
         document.getElementById("spinner").style.display = "none";
         document.getElementById("storyText").style.display = "block";
         document.getElementById("storyText").value = data.text;
+        document.getElementById("titleText").value = data.title;
         document.getElementById("modalTitle").textContent = `${formData.get(
           "nickname"
         )}'s ${formData.get("genre")} Story`;
@@ -53,7 +52,9 @@ document
 // PDF
 function saveStory() {
   var storyText = document.getElementById("storyText").value; // textarea에서 텍스트를 가져옵니다.
+  var titleText = document.getElementById("titleText").value;
   var form = new FormData();
+  form.append("title", titleText);
   form.append("text", storyText);
 
   fetch("/download", {
