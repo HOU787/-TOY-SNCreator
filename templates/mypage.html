@@ -30,9 +30,11 @@
       .pagination .page-item.active .page-link {
         background-color: #ffa500; /* 배경 색상을 주황색으로 설정 */
       }
-      
+      html,
+      body {
+        height: 100%;
+      }
     </style>
-    <head> </head>
   </head>
 
   <body>
@@ -44,7 +46,7 @@
 
     <!-- Board -->
     {% include 'contents/board.html' %}
-
+  </body>
   <!-- Footer -->
   <link
     href="{{ url_for('static', filename='css/footer.css') }}"

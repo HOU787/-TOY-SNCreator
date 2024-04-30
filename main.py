@@ -83,11 +83,11 @@ def mypage():
         grade = user.get('grade')
         grade_emoji = get_emoji(grade)
         grade_title = get_title(grade)
-        fantasy_cnt = user.get('fantasy_cnt')
-        mystery_cnt = user.get('mystery_cnt')
-        rommance_cnt = user.get('rommance_cnt')
-        sf_cnt = user.get('sf_cnt')
-        all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
+        # fantasy_cnt = user.get('fantasy_cnt')
+        # mystery_cnt = user.get('mystery_cnt')
+        # rommance_cnt = user.get('rommance_cnt')
+        # sf_cnt = user.get('sf_cnt')
+        # all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
 
         # 페이지네이션을 위한 설정
         page = int(request.args.get('page', 1))
@@ -97,9 +97,8 @@ def mypage():
         total_pages = (total + per_page - 1) // per_page
 
         return render_template("mypage.html", logged_in=logged_in, nickname=user.get('nickname'), 
-                               emoji=grade_emoji, title=grade_title, 
-                               fantasy_cnt=fantasy_cnt, mystery_cnt=mystery_cnt, rommance_cnt=rommance_cnt, sf_cnt=sf_cnt, 
-                               all_cnt=all_cnt, posts=posts, current_page=page, total_pages=total_pages)
+                               emoji=grade_emoji, title=grade_title, user=user, 
+                                posts=posts, current_page=page, total_pages=total_pages)
     else:
         logged_in = False
         print(logged_in)
