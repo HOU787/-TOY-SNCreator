@@ -72,6 +72,40 @@ def get_title(grade):
     }
     return title_dict.get(grade, "?")
 
+# board
+@app.route("/board")
+def board():
+    if 'user_id' in session:
+        logged_in = True
+
+        user = db.users.find_one({'id':session.get('user_id')})
+        grade = user.get('grade')
+        grade_emoji = get_emoji(grade)
+        grade_title = get_title(grade)
+
+        select = request.args.get('genre','ALL')
+        print('현재 선택',select)
+
+        # 페이지네이션
+        page = int(request.args.get('page', 1))
+        per_page = 10
+
+        genre = request.args.get('genre', None)
+        print(genre)
+        if genre:
+            total = db.novels.count_documents({'genre': genre})
+            posts = db.novels.find({'genre': genre}).skip((page - 1) * per_page).limit(per_page)
+        else:
+            total = db.novels.count_documents({'postId': {'$exists': True}})
+            posts = db.novels.find({'postId': {'$exists': True}}).skip((page - 1) * per_page).limit(per_page)
+
+
+        total_pages = (total + per_page - 1) // per_page
+
+
+        return render_template("board.html", view='board', logged_in=logged_in, nickname=user.get('nickname'), 
+                                emoji=grade_emoji, title=grade_title, user=user, 
+                                    posts=posts, current_page=page, total_pages=total_pages, select=select, genre = select)
 
 # mypage
 @app.route("/mypage")
@@ -91,7 +125,7 @@ def mypage():
         posts = db.novels.find({'id': user.get('id')}).skip((page - 1) * per_page).limit(per_page)
         total_pages = (total + per_page - 1) // per_page
 
-        return render_template("mypage.html", logged_in=logged_in, nickname=user.get('nickname'), 
+        return render_template("mypage.html", view='mypage', logged_in=logged_in, nickname=user.get('nickname'), 
                                emoji=grade_emoji, title=grade_title, user=user, 
                                 posts=posts, current_page=page, total_pages=total_pages)
     else:
@@ -137,7 +171,7 @@ def signin():
         db.users.insert_one({
             "id":userId,"pw":pw_hash,"nickname":nickname,"input_date":datetime.datetime.now(),
             "role":"USER", "grade":0,"cnt":0,
-            "fantasy_cnt":0,"mystery_cnt":0,"rommance_cnt":0,"sf_cnt":0})
+            "fantasy_cnt":0,"mystery_cnt":0,"romance_cnt":0,"sf_cnt":0})
         return jsonify({'result': 'success',"message": "Registration successful!"})
 
 # 로그인 기능
@@ -220,7 +254,7 @@ def get_next_sequence(sequence_name):
 # DB 카운트 용도
 def get_genre_cnt(genre):
     genre_dict = {
-        "Romance":"rommance_cnt",
+        "Romance":"rommnce_cnt",
         "Fantasy":"fantasy_cnt",
         "SF":"sf_cnt",
         "Mystery":"mystery_cnt"

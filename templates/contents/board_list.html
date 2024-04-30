@@ -1,6 +1,6 @@
-<section class="py-5">
+<section class="py-1">
   <div class="container px-4 px-lg-5">
-    <h3>{{ genre or nickname }} Board</h3>
+    <h3>'{{ genre or nickname }}' Board</h3>
     <ul class="list-group">
       <li
         class="list-group-item list-group-item-dark d-flex justify-content-between"
@@ -48,7 +48,7 @@
       </li>
       {% for num in range(1, total_pages + 1) %}
       <li class="page-item {{ 'active' if num == current_page else '' }}">
-        <a class="page-link" href="{{ url_for('mypage', page=num) }}"
+        <a class="page-link" href="{{ url_for( view , page=num) }}"
           >{{ num }}</a
         >
       </li>
@@ -58,7 +58,7 @@
       >
         <a
           class="page-link"
-          href="{{ url_for('mypage', page=current_page+1) if current_page < total_pages else '#' }}"
+          href="{{ url_for( view , page=current_page+1) if current_page < total_pages else '#' }}"
           aria-label="Next"
           tabindex="{{ '-1' if current_page >= total_pages else '' }}"
         >

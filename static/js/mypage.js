@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// postId를 받아 서버로부터 데이터를 가져오고 모달을 표시하는 fetchStory 함수
 function fetchStory(postId) {
   $.ajax({
     url: "/get-post",
