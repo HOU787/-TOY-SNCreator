@@ -23,9 +23,10 @@
   </head>
 
   <body>
-    <!-- Navigation -->
-    {% include 'contents/navi.html'%}
-
+    <header>
+      <!-- Navigation -->
+      {% include 'contents/navi.html'%}
+    </header>
     <!-- carousel -->
     {% include 'contents/carousel.html'%}
 
@@ -43,12 +44,10 @@
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <link
+      href="{{ url_for('static', filename='css/footer.css') }}"
+      rel="stylesheet"
+    />
+    <footer class="footer">{% include 'contents/footer.html' %}</footer>
   </body>
-
-  <!-- Footer -->
-  <link
-    href="{{ url_for('static', filename='css/footer.css') }}"
-    rel="stylesheet"
-  />
-  <footer class="footer">{% include 'contents/footer.html' %}</footer>
 </html>

@@ -99,7 +99,7 @@ def mypage():
         print(logged_in)
         return render_template("intro.html", logged_in=logged_in)
 
-# Mypage read
+# Mypage 게시글
 @app.route("/get-post", methods=['GET'])
 def get_post():
     postId = request.args.get('postId')
@@ -109,7 +109,7 @@ def get_post():
         return jsonify({
             'title': result.get('title','No title provided'),
             'text': result.get('text','No text provided'),
-            'cheracter': result.get('cheracter', 'no Cheracter provided'),
+            'cheracter': result.get('cheracter', 'No Cheracter provided'),
             'genre': result.get('genre','No genre provided')
         })
     else:
