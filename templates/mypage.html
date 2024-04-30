@@ -46,7 +46,13 @@
 
     <!-- Board -->
     {% include 'contents/board.html' %}
+
+    <!-- confirmation_modal -->
+    {% include 'modals/confirmation_modal.html' %}
+
+    <script src="{{ url_for('static', filename='js/mypage.js') }}"></script>
   </body>
+
   <!-- Footer -->
   <link
     href="{{ url_for('static', filename='css/footer.css') }}"

@@ -20,7 +20,9 @@
       >
         <a style="width: 5%">{{ post['postId'] }}</a>
         <a style="width: 10%">{{ post['genre'] }}</a>
-        <a style="width: 50%">{{ post['title'] }}</a>
+        <a style="width: 50%" class="title" data-postid="{{ post['postId'] }}"
+          >{{ post['title'] }}</a
+        >
         <a style="width: 15%">{{ post['nickname'] }}</a>
         <a style="width: 20%">{{ post['date'].strftime("%Y-%m-%d") }}</a>
       </li>

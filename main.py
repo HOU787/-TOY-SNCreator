@@ -83,13 +83,8 @@ def mypage():
         grade = user.get('grade')
         grade_emoji = get_emoji(grade)
         grade_title = get_title(grade)
-        # fantasy_cnt = user.get('fantasy_cnt')
-        # mystery_cnt = user.get('mystery_cnt')
-        # rommance_cnt = user.get('rommance_cnt')
-        # sf_cnt = user.get('sf_cnt')
-        # all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
 
-        # 페이지네이션을 위한 설정
+        # 페이지네이션
         page = int(request.args.get('page', 1))
         per_page = 10
         total = db.novels.count_documents({'id': user.get('id')})
@@ -103,6 +98,22 @@ def mypage():
         logged_in = False
         print(logged_in)
         return render_template("intro.html", logged_in=logged_in)
+
+# Mypage read
+@app.route("/get-post", methods=['GET'])
+def get_post():
+    postId = request.args.get('postId')
+    result = db.novels.find_one({"postId":int(postId)})
+    
+    if result:
+        return jsonify({
+            'title': result.get('title','No title provided'),
+            'text': result.get('text','No text provided'),
+            'cheracter': result.get('cheracter', 'no Cheracter provided'),
+            'genre': result.get('genre','No genre provided')
+        })
+    else:
+        return jsonify({'error': 'text not found'}), 404
 
 # 회원가입 기능
 @app.route('/signin', methods=['POST'])
