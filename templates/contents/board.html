@@ -31,29 +31,34 @@
     </ul>
   </div>
   <!-- Pagination Section Below with added margin and black color text -->
-  <nav aria-label="Page navigation example" style="margin-top: 20px">
+  <nav aria-label="Page navigation example" style="margin-top: 30px">
     <ul class="pagination justify-content-center">
-      <li class="page-item">
+      <li class="page-item {{ 'disabled' if current_page <= 1 else '' }}">
         <a
           class="page-link"
-          href="#"
+          href="{{ url_for('mypage', page=current_page-1) if current_page > 1 else '#' }}"
           aria-label="Previous"
-          style="color: black"
+          tabindex="{{ '-1' if current_page <= 1 else '' }}"
         >
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li class="page-item">
-        <a class="page-link" href="#" style="color: black">1</a>
+      {% for num in range(1, total_pages + 1) %}
+      <li class="page-item {{ 'active' if num == current_page else '' }}">
+        <a class="page-link" href="{{ url_for('mypage', page=num) }}"
+          >{{ num }}</a
+        >
       </li>
-      <li class="page-item">
-        <a class="page-link" href="#" style="color: black">2</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#" style="color: black">3</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Next" style="color: black">
+      {% endfor %}
+      <li
+        class="page-item {{ 'disabled' if current_page >= total_pages else '' }}"
+      >
+        <a
+          class="page-link"
+          href="{{ url_for('mypage', page=current_page+1) if current_page < total_pages else '#' }}"
+          aria-label="Next"
+          tabindex="{{ '-1' if current_page >= total_pages else '' }}"
+        >
           <span aria-hidden="true">&raquo;</span>
         </a>
       </li>

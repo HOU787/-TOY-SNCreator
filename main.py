@@ -89,12 +89,17 @@ def mypage():
         sf_cnt = user.get('sf_cnt')
         all_cnt = fantasy_cnt+mystery_cnt+rommance_cnt+sf_cnt
 
-        posts = list(db.novels.find({'id':user.get('id')}))
+        # 페이지네이션을 위한 설정
+        page = int(request.args.get('page', 1))
+        per_page = 10
+        total = db.novels.count_documents({'id': user.get('id')})
+        posts = db.novels.find({'id': user.get('id')}).skip((page - 1) * per_page).limit(per_page)
+        total_pages = (total + per_page - 1) // per_page
 
-        return render_template("mypage.html", logged_in=logged_in, nickname = user.get('nickname'), 
-                               emoji=grade_emoji, title=grade_title,
-                               fantasy_cnt=fantasy_cnt, mystery_cnt=mystery_cnt, rommance_cnt=rommance_cnt, sf_cnt=sf_cnt, all_cnt=all_cnt,
-                               posts = posts)
+        return render_template("mypage.html", logged_in=logged_in, nickname=user.get('nickname'), 
+                               emoji=grade_emoji, title=grade_title, 
+                               fantasy_cnt=fantasy_cnt, mystery_cnt=mystery_cnt, rommance_cnt=rommance_cnt, sf_cnt=sf_cnt, 
+                               all_cnt=all_cnt, posts=posts, current_page=page, total_pages=total_pages)
     else:
         logged_in = False
         print(logged_in)
